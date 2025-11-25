@@ -306,12 +306,6 @@ def handle_input(msg):
     user_state.pop(user_id, None)
 
 
-# ----------------------- RUN FLASK -----------------------
-@app.route("/")
-def home():
-    return "✅ Bot is running on Render!"
-
-
 if __name__ == "__main__":
     logging.info("Bot starting...")
 
@@ -319,11 +313,15 @@ if __name__ == "__main__":
         port = int(os.environ.get("PORT", 10000))
         app.run(host="0.0.0.0", port=port)
 
+    # Start Flask in a separate thread
     Thread(target=run_flask, daemon=True).start()
 
-    try:
-        bot.infinity_polling(timeout=60, long_polling_timeout=60)
-    except KeyboardInterrupt:
-        logging.info("Bot stopped by user.")
-    except Exception:
-        logging.exception("Bot crashed")
+    # Start polling in retry loop
+    import time
+    while True:
+        try:
+            bot.infinity_polling(timeout=60, long_polling_timeout=60)
+        except Exception as e:
+            print("Polling error:", e)
+            time.sleep(5)
+
