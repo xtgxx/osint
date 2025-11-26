@@ -24,7 +24,7 @@ def pretty_format(data):
 # ----------------------- HANDLE FAMILY -----------------------
 # family.py
 def handle_family(bot, call, user_state):
-    bot.send_message(call.message.chat.id, "👨 Send the number for Family info:")
+    bot.send_message(call.message.chat.id, "🙎🏻‍♂️ Send the Mobile number for Family info:")
     user_state[call.from_user.id] = "family_input"
 
 # ----------------------- HANDLE FAMILY INPUT -----------------------
@@ -49,7 +49,7 @@ def handle_input(bot, msg, user_state):
     data = response.get("data") or response.get("result") or response.get("info") or response
 
     formatted = pretty_format(data)
-    final_msg = f"### 👨 **Family Info Result**\n\n{formatted}"
+    final_msg = f"### 🙎🏻‍♂️ **NUMBER Family Info Result**\n\n{formatted}"
 
     bot.send_message(msg.chat.id, final_msg, parse_mode="Markdown")
     user_state.pop(user_id, None)
