@@ -23,7 +23,7 @@ def is_subscribed(user_id):
 
 
 # ----------------------- CONFIG -----------------------
-TOKEN = "8256820859:AAFndUEu14YYz-h-EcFZQiSwBc61Qo5I-bs"
+TOKEN = "8352161478:AAEHE91wtev6vZjdG6gwtOS_3dkqtrzYJX0"
 bot = telebot.TeleBot(TOKEN, parse_mode="Markdown")
 
 app = Flask("render_web")
@@ -131,8 +131,12 @@ def start(msg):
         telebot.types.InlineKeyboardButton("📍 PINCODE", callback_data="pincode")
     )
     kb.add(
-        telebot.types.InlineKeyboardButton("👨 Family", callback_data="family")
+        telebot.types.InlineKeyboardButton("🧔🏻 NUM 2 Family", callback_data="family")
     )
+    kb.add(
+        telebot.types.InlineKeyboardButton("👩🏻 AADHAR 2 Family", callback_data="aadhfamily")
+    )
+
     kb.add(
         telebot.types.InlineKeyboardButton("🏦 IFSC", callback_data="ifsc"),
         telebot.types.InlineKeyboardButton("🍚 Ration", callback_data="rashan")
@@ -216,6 +220,10 @@ def callback(call):
         import family
         family.handle_family(bot, call, user_state)
 
+    elif call.data == "aadhfamily":
+        import aadhfamily
+        aadhfamily.handle_aadhfamily(bot, call, user_state)
+
     elif call.data == "upi":
         import upi
         upi.handle_upi(bot, call, user_state)
@@ -251,6 +259,12 @@ def handle_input(msg):
     if service == "family_input":
         import family
         family.handle_input(bot, msg, user_state)
+        return
+    
+    # ------------------ AADHAR FAMILY ------------------
+    if service == "aadhfamily_input":
+        import aadhfamily
+        aadhfamily.handle_input(bot, msg, user_state)
         return
 
     # ------------------ UPI ------------------
