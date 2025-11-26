@@ -23,7 +23,7 @@ def is_subscribed(user_id):
 
 
 # ----------------------- CONFIG -----------------------
-TOKEN = "8352161478:AAEHE91wtev6vZjdG6gwtOS_3dkqtrzYJX0"
+TOKEN = "8256820859:AAFndUEu14YYz-h-EcFZQiSwBc61Qo5I-bs"
 bot = telebot.TeleBot(TOKEN, parse_mode="Markdown")
 
 app = Flask("render_web")
