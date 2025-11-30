@@ -202,7 +202,6 @@ def broadcast(msg):
 
 
 
-# ----------------------- CALLBACK -----------------------
 # ----------------------- CALLBACK HANDLER -----------------------
 @bot.callback_query_handler(func=lambda c: True)
 def callback(call):
@@ -314,9 +313,19 @@ def handle_input(msg):
 
     data = response.get("data") or response.get("result") or response.get("info") or response
     formatted = pretty_format(data)
+
     final_msg = f"### 🔍 **{service.upper()} Result**\n\n{formatted}"
 
-    bot.send_message(msg.chat.id, final_msg, parse_mode="Markdown")
+    # ------------------ FIX MARKDOWN ERROR ------------------
+    def escape_markdown(text: str):
+        escape_chars = ['*', '_', '`', '[', ']']
+        for ch in escape_chars:
+            text = text.replace(ch, f'\\{ch}')
+        return text
+
+    safe_msg = escape_markdown(final_msg)
+
+    bot.send_message(msg.chat.id, safe_msg, parse_mode="Markdown")
     user_state.pop(user_id, None)
 
 
@@ -338,4 +347,5 @@ if __name__ == "__main__":
         except Exception as e:
             print("Polling error:", e)
             time.sleep(5)
+
 
